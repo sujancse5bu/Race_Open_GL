@@ -28,25 +28,181 @@ void circle(GLdouble rad);
 void hare();
 void hare_sleep();
 #define PI 3.1416
-void drawLeftCircle()
+double x = 0;
+
+
+
+
+GLfloat pyramidVertices[] = {
+    // Base vertices
+    0.0f, 0.0f, 0.0f,
+    1.0f, 0.0f, 0.0f,
+    0.0f, 0.0f, 1.0f,
+    1.0f, 0.0f, 1.0f,
+    // Apex
+    0.5f, 1.0f, 0.5f
+};
+
+GLuint pyramidIndices[] = {
+    // Base indices
+    100, 120, 200,
+    100, 323, 212,
+    // Side triangles
+    211, 124, 211,
+    102, 430, 320,
+    312, 49, 221,
+    221, 490, 032
+};
+
+
+void renderPyramid() {
+    // glColor3f(1.0f, 0.0f, 0.0f); // Red
+    // // Render the first face (e.g., base)
+    // glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+
+    // glColor3f(0.0f, 0, 0.0f); // Green
+    
+    // glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_INT, 0);
+//     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear color and depth buffers
+//    glMatrixMode(GL_MODELVIEW);     // To operate on model-view matrix
+ 
+//    // Render a color-cube consisting of 6 quads with different colors
+//    glLoadIdentity();                 // Reset the model-view matrix
+//    glTranslatef(1.5f, 0.0f, -7.0f);  // Move right and into the screen
+ 
+//    glBegin(GL_QUADS);                // Begin drawing the color cube with 6 quads
+//       // Top face (y = 1.0f)
+//       // Define vertices in counter-clockwise (CCW) order with normal pointing out
+//       glColor3f(0.0f, 1.0f, 0.0f);     // Green
+//       glVertex3f( 1.0f, 1.0f, -1.0f);
+//       glVertex3f(-1.0f, 1.0f, -1.0f);
+//       glVertex3f(-1.0f, 1.0f,  1.0f);
+//       glVertex3f( 1.0f, 1.0f,  1.0f);
+ 
+//       // Bottom face (y = -1.0f)
+//       glColor3f(1.0f, 0.5f, 0.0f);     // Orange
+//       glVertex3f( 1.0f, -1.0f,  1.0f);
+//       glVertex3f(-1.0f, -1.0f,  1.0f);
+//       glVertex3f(-1.0f, -1.0f, -1.0f);
+//       glVertex3f( 1.0f, -1.0f, -1.0f);
+ 
+//       // Front face  (z = 1.0f)
+//       glColor3f(1.0f, 0.0f, 0.0f);     // Red
+//       glVertex3f( 1.0f,  1.0f, 1.0f);
+//       glVertex3f(-1.0f,  1.0f, 1.0f);
+//       glVertex3f(-1.0f, -1.0f, 1.0f);
+//       glVertex3f( 1.0f, -1.0f, 1.0f);
+ 
+//       // Back face (z = -1.0f)
+//       glColor3f(1.0f, 1.0f, 0.0f);     // Yellow
+//       glVertex3f( 1.0f, -1.0f, -1.0f);
+//       glVertex3f(-1.0f, -1.0f, -1.0f);
+//       glVertex3f(-1.0f,  1.0f, -1.0f);
+//       glVertex3f( 1.0f,  1.0f, -1.0f);
+ 
+//       // Left face (x = -1.0f)
+//       glColor3f(0.0f, 0.0f, 1.0f);     // Blue
+//       glVertex3f(-1.0f,  1.0f,  1.0f);
+//       glVertex3f(-1.0f,  1.0f, -1.0f);
+//       glVertex3f(-1.0f, -1.0f, -1.0f);
+//       glVertex3f(-1.0f, -1.0f,  1.0f);
+ 
+//       // Right face (x = 1.0f)
+//       glColor3f(1.0f, 0.0f, 1.0f);     // Magenta
+//       glVertex3f(1.0f,  1.0f, -1.0f);
+//       glVertex3f(1.0f,  1.0f,  1.0f);
+//       glVertex3f(1.0f, -1.0f,  1.0f);
+//       glVertex3f(1.0f, -1.0f, -1.0f);
+//    glEnd();  // End of drawing color-cube
+ 
+//    // Render a pyramid consists of 4 triangles
+//    glLoadIdentity();                  // Reset the model-view matrix
+//    glTranslatef(-1.5f, 0.0f, -6.0f);  // Move left and into the screen
+ 
+//    glBegin(GL_TRIANGLES);           // Begin drawing the pyramid with 4 triangles
+//       // Front
+//       glColor3f(1.0f, 0.0f, 0.0f);     // Red
+//       glVertex3f( 0.0f, 1.0f, 0.0f);
+//       glColor3f(0.0f, 1.0f, 0.0f);     // Green
+//       glVertex3f(-1.0f, -1.0f, 1.0f);
+//       glColor3f(0.0f, 0.0f, 1.0f);     // Blue
+//       glVertex3f(1.0f, -1.0f, 1.0f);
+ 
+//       // Right
+//       glColor3f(1.0f, 0.0f, 0.0f);     // Red
+//       glVertex3f(0.0f, 1.0f, 0.0f);
+//       glColor3f(0.0f, 0.0f, 1.0f);     // Blue
+//       glVertex3f(1.0f, -1.0f, 1.0f);
+//       glColor3f(0.0f, 1.0f, 0.0f);     // Green
+//       glVertex3f(1.0f, -1.0f, -1.0f);
+ 
+//       // Back
+//       glColor3f(1.0f, 0.0f, 0.0f);     // Red
+//       glVertex3f(0.0f, 1.0f, 0.0f);
+//       glColor3f(0.0f, 1.0f, 0.0f);     // Green
+//       glVertex3f(1.0f, -1.0f, -1.0f);
+//       glColor3f(0.0f, 0.0f, 1.0f);     // Blue
+//       glVertex3f(-1.0f, -1.0f, -1.0f);
+ 
+//       // Left
+//       glColor3f(1.0f,0.0f,0.0f);       // Red
+//       glVertex3f( 0.0f, 1.0f, 0.0f);
+//       glColor3f(0.0f,0.0f,1.0f);       // Blue
+//       glVertex3f(-1.0f,-1.0f,-1.0f);
+//       glColor3f(0.0f,1.0f,0.0f);       // Green
+//       glVertex3f(-1.0f,-1.0f, 1.0f);
+//    glEnd();   // Done drawing the pyramid
+ 
+//    glutSwapBuffers();  // Swap the front and back frame buffers (double buffering)
+}
+
+
+static void idle(void)
 {
+    glutPostRedisplay();
+}
+void special(int key, int, int) {
+    // printf("%d", &key);
+    switch (key) {
+        case GLUT_KEY_UP: x += 3.5;
+                            break;
+        case GLUT_KEY_DOWN: x = x-3.5;
+                            break;
+        // case GLUT_KEY_F1: (a -= 5) %= 360; break;
+        // case GLUT_KEY_F2: ballMoveFront(); break;
+        // case GLUT_KEY_F3: ballMoveBack(); break;
+        // case GLUT_KEY_F4: posx += 0.5; break;
+        // case GLUT_KEY_F5: posx -= 0.5; break;
+        // case GLUT_KEY_F6: posy += 0.5; break;
+        // case GLUT_KEY_F7: posy -= 0.5; break;
+        // case GLUT_KEY_F8: posz += 0.5; break;
+        // case GLUT_KEY_F9: posz -= 0.5; break;
+        default: return;
+    }
+    glutPostRedisplay();
+}
+
+void drawLeftCircle(int tranY)
+{
+    // printf("counter: %d", counter);
+    int tranX = 350;
     glPushMatrix();
     glColor3f(0,.5,0);
     glScalef(.5,.7,.5);
-    glTranslatef(110+350,245,1);
+    glTranslatef(110 + tranX,245 + tranY + x,1);
     circle(20);
     glPopMatrix();
     glPushMatrix();
     glColor3f(0,0,0);
     glScalef(.5,.7,.5);
-    glTranslatef(110+350,245,1);
+    glTranslatef(110+tranX,245 + tranY + x,1);
     circle(5);
     glPopMatrix();
     /**-----------Neck-----------**/
     glPushMatrix();
     glColor3f(0,.5,0);
     glScalef(.5,.7,.5);
-    glTranslatef(210+350,180,1);
+    glTranslatef(210+tranX,180 + tranY + x,1);
     glRotatef(20,0,0,1);
     glBegin(GL_POLYGON);
     glVertex3f(-70,90,1);
@@ -59,7 +215,7 @@ void drawLeftCircle()
     glPushMatrix();
     glColor3f(0,.7,0);
     glScalef(.5,.7,.5);
-    glTranslatef(230+350,110,1);
+    glTranslatef(230+tranX,110 + tranY + x,1);
 
     glBegin(GL_POLYGON);
     glVertex3f(-80,90,1);
@@ -72,7 +228,7 @@ void drawLeftCircle()
     glPushMatrix();
     glColor3f(0,.7,0);
     glScalef(.5,.7,.5);
-    glTranslatef(300+350,110,1);
+    glTranslatef(300+tranX,110 + tranY + x,1);
     //glRotatef(20,0,0,1);
     glBegin(GL_POLYGON);
     glVertex3f(-80,90,1);
@@ -88,7 +244,7 @@ void drawLeftCircle()
 
     glColor3f(0,.5,0);
     glScalef(.5,0.7,.5);
-    glTranslatef(200+350,200,1);
+    glTranslatef(200+tranX,200 + tranY + x,1);
     glRotatef(-90,0,0,1);
     glBegin(GL_TRIANGLE_FAN);
 
@@ -296,7 +452,7 @@ void body2()
 }
 void sceenario()
 {
-
+    // road main color
     glColor3f(.7,0.7,0.7);
     glPushMatrix();
     glTranslatef(0, 0, 0);
@@ -307,6 +463,7 @@ void sceenario()
         glVertex2i(0,300);
     glEnd();
     glPopMatrix();
+
     glColor3f(.5,1,0.5);
     glPushMatrix();
     glTranslatef(0, 0, 0);
@@ -318,6 +475,7 @@ void sceenario()
     glEnd();
     glPopMatrix();
 
+    // road middle divider
     glColor3f(1,1,0.5);
     glPushMatrix();
     glTranslatef(0, 0, 0);
@@ -329,6 +487,7 @@ void sceenario()
     glEnd();
     glPopMatrix();
 
+    //one tree
     glColor3f(.1,0.2,0.1);
     glPushMatrix();
     glTranslatef(-m, 0, 0);
@@ -355,13 +514,34 @@ void sceenario()
         glVertex2i(50,340);
 
     glEnd();
-    glPopMatrix();
 
-    glPushMatrix();
-    glTranslatef(-m, 0, 0);
-    glColor3f(.1,0.2,0.1);
-    glTranslatef(250, 0, 0);
+    glColor3f(0.0,0.1,0.1);
     glBegin(GL_POLYGON);
+        glVertex2i(-100,100);
+        glVertex2i(-100,150);
+        glVertex2i(-150,100);
+        glVertex2i(-150,150);
+    glEnd();
+
+        glPopMatrix();
+
+        // speed breaker box
+        // float size = 1.5;
+        // glBegin(GL_QUADS);
+        // glColor3f(.1, 0.5, 0.1);
+
+        // glVertex2f(-size / 2, -size / 2);
+        // glVertex2f(size / 2, -size / 2);
+        // glVertex2f(size / 2, size / 2);
+        // glVertex2f(-size / 2, size / 2);
+
+        // glEnd();
+
+        glPushMatrix();
+        glTranslatef(-m, 0, 0);
+        glColor3f(.1, 0.2, 0.1);
+        glTranslatef(250, 0, 0);
+        glBegin(GL_POLYGON);
         glVertex2i(72,300);
         glVertex2i(78,300);
         glVertex2i(78,405);
@@ -750,7 +930,7 @@ void display()
        hare_sleep();
 
     }
-    drawLeftCircle();
+    drawLeftCircle(0);
 
     if(F==2){
         hare();
@@ -758,13 +938,34 @@ void display()
         ba_posion=1500;
     }
 
+    renderPyramid();
+
     texts();
     glFlush();
     glutPostRedisplay();
     my_control_func();
 
+    // printf("%d\n", F);
 }
+void init() {
 
+    // Set the current clear color to black and the current drawing color to
+  // white.
+  glClearColor (0.4, 0.85, 1.0, 0.0);
+  glColor3f(1.0, 1.0, 1.0);
+
+  // Set the camera lens to have a 60 degree (vertical) field of view, an
+  // aspect ratio of 4/3, and have everything closer than 1 unit to the
+  // camera and greater than 40 units distant clipped away.
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluPerspective(60.0, 4.0/3.0, 1, 20);
+
+  // Position camera at (4, 6, 5) looking at (0, 0, 0) with the vector
+  // <0, 1, 0> pointing upward.
+
+
+}
 int main(int argc, char **argv)
 {
     glutInit(&argc , argv);
@@ -773,7 +974,10 @@ int main(int argc, char **argv)
     glutCreateWindow("Slow and Steady wins the race");
 
     glutDisplayFunc(display);
+    glutIdleFunc(idle);
+    glutSpecialFunc(special);
     myInit();
+    // init();
     glutMainLoop();
 }
 
